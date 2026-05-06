@@ -1,0 +1,703 @@
+Merged CareSuite-Web & Well-Being-Hub: Analysis
+and Development Plan
+Executive Summary
+We will rebuild CareSuite-Web  as a React frontend with a real backend and use a proper database (e.g.
+MongoDB or Supabase) instead of client-side local storage. We will integrate Well-Being-Hub ’s features 
+only as needed  (sharing non-conflicting assets) and postpone the AI chatbot  to a later phase. This
+document analyzes both projects (using their official READMEs), compares features/dependencies, and
+proposes a modular React/Node architecture. It includes a 20-day, 2‑hour/day schedule focusing first on
+core app and backend, then the chatbot. We detail CI/CD, deployment steps, environment setup, and a
+migration/branching strategy. All key information is cited from the official repos.
+Repository Analysis
+CareSuite-Web (Original: Static Wellness App)
+The README for CareSuite-Web  describes it as “a comprehensive wellness platform”  with three main
+features:
+Mood Tracking:  Users select daily moods, add notes, and view mood history . 
+Personal Journal:  Users write journal entries (title/content), tagged by mood, and see chronological
+history . 
+Fitness Tracking:  Log workouts (type, duration, intensity), track steps and calories, and view
+workout history . 
+Tech Stack:  HTML5, CSS3, and Vanilla JavaScript , with Font Awesome for icons. It’s a purely client-side
+app. The Prerequisites  list a modern browser and basic JS knowledge . No build or testing tools are
+mentioned (it’s static).
+Project Structure (from README):
+CareSuite-Web/
+├ index.html
+├ about.html
+├ mood.html
+├ journal.html
+├ fitness.html
+├ contact.html
+├ css/
+│   └ style.css1
+• 2
+• 
+3
+• 
+4
+5
+6
+7
+1├ js/
+│   └ script.js
+└ assets/
+    └ images/
+Key modules: script.js  handles all interaction (mood, journal, fitness) via DOM and localStorage
+(the code shows it storing journal entries in localStorage ). Font Awesome icons and basic
+navigation are included.
+Well-Being-Hub (Original: Mental Wellness Platform)
+The Well-Being-Hub README  presents it as a web app delivering therapeutic resources for emotional
+well-being. Its Core Features  include:
+Audio Therapy:  Curated music playlists, podcasts, and audiobooks. 
+Yoga Therapy:  Guided yoga poses with instructions/videos. 
+Laughing Therapy:  Fun content (memes, videos) for mood enhancement. 
+Educational Resources:  Hygiene, science, and arts & crafts information. 
+Mindfulness Game:  Interactive maze game for positive thinking. 
+Additional Features:  AI-powered chatbot, user authentication, responsive design, PWA (offline) support,
+and interactive UI . However , we will postpone chatbot integration  – focusing first on core features.
+Tech Stack:  The front end uses HTML5/CSS3/JavaScript plus libraries (AOS, Bootstrap, Typed.js, Owl
+Carousel, Font Awesome) . The back end uses PHP (server-side scripting) and MySQL (user database)
+. Firebase is listed for authentication services . Prerequisites include a web server (Apache/Nginx),
+PHP 7.4+, and MySQL . It is a PWA (has manifest.json  and a service worker ).
+Project Structure (from README):
+Well-Being-Hub/
+├ assets/                 # images, media
+├ css/                   
+│   ├ style.css
+│   ├ audio.css
+│   ├ yoga.css
+│   ├ laugh.css
+│   ├ education.css
+│   ├ game.css
+│   └ specialTherapy.css
+├ htmls/
+│   ├ audioTherapy.html
+│   ├ yogatherapy.html
+│   ├ laughTherapy.html
+│   ├ education.html
+│   ├ game.html8
+9
+10
+• 
+• 
+• 
+• 
+• 
+11
+1213
+14 14
+15 16
+17
+2│   ├ specialTherapy.html  # chatbot page
+│   └ login.html
+├ js/
+│   ├ script.js
+│   ├ game.js
+│   ├ script-login.js
+│   └ serviceworker.js
+├ index.html             
+├ login.php              
+├ signup.php            
+└ manifest.json          
+Key modules: PHP pages ( login.php , signup.php ) handle user DB. Static pages cover therapies and
+game. The service worker enables offline caching .
+Features & Dependencies Comparison
+Feature/Dependency CareSuite-Web Well-Being-Hub
+Mood Tracker ✔️ (Yes)
+ ✖️ (No)
+Personal Journal ✔️
+ ✖️
+Fitness/Workouts ✔️
+ Partial (Yoga only)
+Audio Therapy ✖️
+ ✔️
+Yoga Therapy ✖️
+ ✔️
+Laughing Therapy ✖️
+ ✔️
+Educational Resources ✖️
+ ✔️
+Mindfulness Game ✖️
+ ✔️
+Chatbot (AI) ✖️
+ ✔️
+(deferred)
+User Auth (signup/login) ✖️
+ ✔️ (PHP/MySQL)
+Progressive Web App (offline) ✖️
+ ✔️ (Service Worker)
+Languages HTML, CSS, JS HTML, CSS, JS, PHP
+Libs/Frameworks None (vanilla JS) Bootstrap, AOS, Typed.js, Owl, etc.
+Database None (localStorage) MySQL (user data)
+Backend None PHP (7.4+)
+Overlaps & Integration:  The main overlap is exercise tracking  (CareSuite’s fitness vs Well-Being’s yoga)
+and shared JS/CSS  needs. Both use HTML/CSS/JS and FontAwesome. We will merge nav/menu structures16
+2
+3
+4
+10
+18
+19
+20
+21
+11
+22
+16
+5 12
+1213
+14
+14
+3and reuse any common assets (images, CSS). Notably, the chatbot feature will be skipped initially  (the
+Well-Being README lists “Chatbot Integration” , but we’ll postpone that).
+Dependencies:  Unlike the originals, our merged app will use React , Node.js/Express , and a real DB. We
+ditch CareSuite’s localStorage  approach , and replace MySQL with MongoDB or Supabase. A
+summary of technologies (new vs original):
+Layer Original Merged
+Frontend Vanilla HTML/CSS/JS React (components, JSX)
+CSS Framework None (Optional) Tailwind or Bootstrap
+Mobile/PWA Partial (Well-Being) (Optional) Service Worker
+Backend None (CareSuite) / PHP (WB) Node.js/Express API
+Database localStorage / MySQL MongoDB or Supabase (Postgres)
+Authentication None / PHP+Firebase JSON Web Tokens or Supabase Auth
+Hosting Static / LAMP e.g. Vercel/Netlify + Heroku/AWS
+In short, we’ll rebuild as a React frontend + Node backend  app. Data (mood entries, journal entries,
+workouts) will be persisted in the chosen DB, not in browser storage. 
+Proposed Architecture
+We propose a component-based React architecture  with a Node/Express backend and a NoSQL/SQL
+database. 
+Frontend (React):  Key components include MoodTracker , Journal , FitnessTracker , AudioTherapy , 
+YogaTherapy , LaughTherapy , Education , and Game , plus common components (Navbar , Footer ,
+Auth forms, etc.). Routes (React Router) map to pages. State can be managed with React Context or
+Redux if needed.
+Backend (Node/Express):  We will expose RESTful APIs (or GraphQL) for data. Example endpoints: 
+POST /api/moods , GET /api/moods
+POST /api/journal , GET /api/journal
+POST /api/workouts , GET /api/workouts
+POST /api/users/signup , POST /api/users/login
+The backend will use MongoDB  (via Mongoose) or Supabase  (serverless Postgres). Either option provides
+persistent storage and built-in auth. For instance, Supabase can handle user auth and storage out-of-the-
+box, simplifying setup. If using Mongo, we will use JWT for authentication.
+Data Models:  (Example using Mongo/Supabase)
+User { id, name, email, passwordHash }
+MoodEntry { userId, date, mood, note }
+JournalEntry { userId, date, content }11
+8
+14
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+4WorkoutEntry { userId, date, type, duration }
+Authentication:  We’ll use JWT or Supabase Auth for user sessions. The original Well-Being-Hub used
+PHP/MySQL ; we will modernize this with a Node endpoint or Supabase.
+PWA (Optional):  We can later add a service worker for offline support (building on Well-Being-Hub’s
+PWA features ).
+Below is a high-level component/backend integration diagram:
+flowchart LR
+  subgraph Frontend (React)
+    UI[User Interface]
+    MoodComp[Mood Tracker Component]
+    JournalComp[Journal Component]
+    FitnessComp[Fitness Component]
+    |>|Navbar|
+  end
+  subgraph Backend (Node/Express API)
+    API[(API Server)]
+    AuthAPI[(Auth Service)]
+  end
+  subgraph Database
+    DB[(MongoDB / Supabase)]
+  end
+  UI -->|calls| API
+  API -->|reads/writes| DB
+  UI -- Auth --> AuthAPI
+  AuthAPI --> DB
+Migration Plan:  We will start by initializing a React app (e.g. with create-react-app  or Vite). We’ll
+reorganize static HTML from the old repos into React components. For example, CareSuite’s mood.html
+becomes MoodTracker.jsx  component, and its JS logic (currently using localStorage ) will be
+replaced by API calls (e.g. fetch('/api/moods', …) ). The backend will be built in parallel, first as mock
+JSON files (for early UI development) and then replaced with a real DB. All routes and scripts will be
+rewritten in modern JS (ES6+) under Node. Non-conflicting assets (images, CSS) from Well-Being-Hub can be
+reused in the React app’s public/  folder .
+20-Day Schedule (2 hrs/day)
+We break the work into 20 2-hour days, with milestones. Each day includes testing steps and notes on
+blockers.• 
+• 
+14
+• 
+16
+8
+5Day Tasks Deliverable Testing/Notes Priority Blockers
+1Environment Setup:  Create
+React app (CRA or Vite), install
+dependencies (React Router ,
+axios, etc). Set up Node/
+Express skeleton. Set up Git
+repo and branches.React frontend
+scaffold; Node
+backend
+skeleton.Run npm 
+start
+(frontend) and 
+node server
+smoke tests.High N/A
+2Frontend Layout:  Build global
+components (Navbar , Footer).
+Implement routing for Home,
+Auth, Dashboard pages.Navbar/Footer
+visible on all
+pages; routes
+working.Navigate
+between
+routes; ensure
+layout
+consistency.High CSS conflicts
+3Auth System:  Create signup/
+login pages and backend
+endpoints ( /api/users ).
+Connect to MongoDB/
+Supabase. Implement JWT or
+Supabase auth.Users can
+register/login;
+tokens stored.Register and
+login a test
+user .HighDB
+connection
+issues
+4Mood Tracker UI:  Build 
+MoodTracker  component
+(mood selection UI, form).
+Create /api/moods  POST &
+GET endpoints.Mood page UI
+and working
+API calls.Submit mood
+→ entry saved
+in DB (verify in
+DB).HighCORS or API
+errors
+5Journal UI:  Build Journal
+component (text entry form).
+Create /api/journal
+endpoints.Journal page
+UI and API.Add entry →
+appears in list
+(from DB).HighData
+schema
+bugs
+6Fitness UI:  Build 
+FitnessTracker
+component. Implement
+/api/workouts  (log type/
+duration).Fitness page
+UI and API.Log workout →
+stored/
+retrieved from
+DB.MediumInput
+validation
+issues
+7Well-Being Pages:  Integrate
+audio/yoga/laugh/education
+pages into React (simple static
+routes with sample content).All static
+therapy pages
+added.Pages render
+content;
+navigation
+works.MediumAsset path
+fixes
+8Database Integration:  Test
+full flow: login → mood/
+journal/workout entries saved
+to actual DB (no localStorage).
+Refine schemas.End-to-end
+data
+persistence
+working.Restart app →
+data persists
+via DB.HighCredential/
+config errors
+6Day Tasks Deliverable Testing/Notes Priority Blockers
+9Dashboards & Lists:  Add
+pages to display history:
+MoodHistory, JournalHistory,
+etc (fetch data from API).History pages
+showing all
+entries.Verify correct
+data appears
+per user .MediumDate
+formatting
+issues
+10Polishing Frontend:  Style
+components (CSS or Tailwind).
+Ensure mobile
+responsiveness. Review UI
+consistency.Visually
+consistent UI,
+responsive
+layout.Test on mobile
+simulator; fix
+layout bugs.LowDesign
+tweaks
+11API Error Handling:  Add
+client-side error handling and
+loading states. Improve
+backend error messages.Error/loading
+UI (toasts/
+alerts).Induce errors
+(wrong input)
+and check UI.Low Edge cases
+12CI/CD Setup (Part 1):  Write
+GitHub Actions workflow to
+build/test frontend and
+backend on push.CI pipeline
+YAML file.Push to GitHub
+triggers build
+(mock tests).HighYAML syntax
+errors
+13CI/CD Setup (Part 2):
+Configure deployment to
+staging: e.g. push to 
+staging  branch deploys
+frontend (Netlify) and backend
+(Heroku).Staging
+environment
+with live URL.Deploy to
+staging; test
+critical flows.HighDeployment
+config errors
+14Environment Prep:
+Document env vars needed
+(DB connection string, JWT
+secret, API URLs). Create
+.env examples.Environment
+variable guide
+in README.Verify app
+reads vars
+(restart
+services).MediumMissing env
+causes crash
+15Code Review and
+Refactoring:  Clean up code,
+ensure DRY (remove unused
+code). Merge common logic
+(e.g. HTTP service).Clean
+codebase,
+merged
+branches
+ready for QA.Run lint; fix
+warnings.LowMerge
+conflicts
+16Testing (Backend):  Write unit
+tests for API endpoints (with
+Jest or Mocha). Add basic
+frontend component tests.Test suite
+(inventory of
+passing tests).npm test
+passes for
+sample tests.MediumMocking/
+stubbing
+issues
+7Day Tasks Deliverable Testing/Notes Priority Blockers
+17Integration Testing:  Perform
+manual end-to-end tests
+(signup→login→create
+entries). Fix any found bugs.Verified full
+user flow.Checklist sign-
+off of core
+flows.HighUncaught
+exceptions
+18Chatbot Backend (Prep):
+Scaffold chatbot backend (e.g.
+endpoint /api/chat )
+without logic. Mock it for now.Chat endpoint
+stubbed, ready
+for future.Call /api/
+chat returns
+a dummy
+response.Low N/A
+19Release Candidate:  Merge 
+staging  into main,
+update documentation
+(features, setup). Prepare for
+production deploy.Production-
+ready main
+branch.Smoke-test
+production
+deployment.HighDowntime
+planning
+20Post-Core Planning:  Outline
+chatbot development plan
+(e.g. training data, API). Final
+walkthrough of all
+deliverables.Project
+handoff
+document
+(next steps).Review
+milestones;
+schedule
+phase 2 tasks.LowScope creep
+(chatbot)
+Each task is ~2 hours . High-priority tasks are core features and data flow (Auth, Mood, Journal). Lower
+priority includes UI polish and chatbot stubs. Testing is continuous: after each feature, we verify data is
+stored in the real DB. Blockers like API/CORS or DB credentials are noted so they can be resolved promptly.
+CI/CD, Build, and Deployment
+Build Steps:  On your machine or server:
+# Frontend
+npxcreate-react-app caresuite-web # or use Vite for React
+cdcaresuite-web
+npminstall
+npmstart # runs dev server (hot reload)
+# Backend (separate)
+npxexpress-generator backend
+cdbackend
+npminstall
+nodeapp.js # runs Express server
+8For databases:
+MongoDB:  Run locally or use Atlas. Example: MONGODB_URI=mongodb+srv://
+<user>:<pass>@cluster0.mongodb.net/CareSuiteDB
+Supabase:  Set up a project, get API keys, and use the supabase-js  library in frontend or Node.
+CI/CD Pipeline:  Use GitHub Actions. Example workflow snippet ( .github/workflows/ci.yml ):
+name:CI/CD
+on:[push]
+jobs:
+build:
+runs-on:ubuntu-latest
+steps:
+-uses:actions/checkout@v3
+-name:Setup Node
+uses:actions/setup-node@v3
+with: node-version :'18'
+-name:Install Frontend
+run:|
+cd caresuite-web
+npm ci
+-name:Lint & Test
+run:|
+cd caresuite-web && npm run lint && npm test
+-name:Build Frontend
+run:|
+cd caresuite-web && npm run build
+-name:Deploy Frontend
+uses:JamesIves/github-pages-deploy-action@4.1.0
+with:
+branch:gh-pages
+folder:caresuite-web/build
+For the backend, a similar Action can deploy to Heroku or AWS. Example (Heroku):
+backend:
+needs:build
+runs-on:ubuntu-latest
+steps:
+-uses:actions/checkout@v3
+-name:Deploy to Heroku
+uses:akhileshns/heroku-deploy@v3.12.12
+with:• 
+• 
+9heroku_api_key :${{secrets.HEROKU_API_KEY}}
+heroku_app_name :caresuite-backend
+heroku_email :your-email@example.com
+Environments:
+Local:  Run both servers locally ( npm start  and node), connect to a local or cloud DB (set in
+.env). 
+Staging:  Push to a staging  branch triggers Action to deploy to staging (e.g. a separate Heroku
+app or preview domain on Netlify/Vercel). 
+Production:  Merging main triggers deployment to production servers. 
+We will document environment variables (like DB_URI, JWT_SECRET ) and use example .env.example
+file. All deployments must use secure stores (GitHub Secrets) for credentials.
+Dev Tools & Learning Resources
+Editor:  VS Code (with ESLint, Prettier). 
+Version Control:  Git with GitFlow (feature branches). Use descriptive commit messages. 
+Terminal:  Node v18+, npm v8+. 
+Database:  MongoDB (Atlas or Docker) or Supabase (cloud Postgres). For Mongo, familiarize with
+Mongoose; for Supabase, see Supabase docs . 
+Dev Utilities:  Postman (API testing), React DevTools, MongoDB Compass or Supabase web console. 
+Learning:  Official React docs, Node/Express tutorials, JWT Auth guide , and REST API design
+principles. 
+AI Assistance:  Leverage GitHub Copilot for boilerplate React components, Express routes, and
+GitHub Actions config. Focus human effort on architecture.
+Git Strategy & Migration
+We will use GitFlow :
+Main  branch holds production-ready code.
+Develop  branch is for integration. 
+Create feature/*  branches for each task (e.g. feature/mood-tracker , feature/auth ). 
+Use Pull Requests to merge features into develop , with code review. 
+Before merging, run the CI workflow to catch errors.
+For merging CareSuite and Well-Being code: start a fresh repo ( main empty). Copy in new structure. Avoid
+copying old script.js ; rewrite logic in React/Node. Keep assets (images/CSS) that still apply. If conflicts
+arise (e.g. two CSS classes named the same), rename or namespace them. Use .gitignore  for 
+node_modules  and environment files.
+For DB migration: if any data must be preserved (unlikely for dev), write a script to transfer 
+localStorage  arrays into Mongo. But since this is an initial build, we start with empty DB.• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+10Risks & Contingencies
+Scope Creep:  Do not tackle the chatbot in Phase 1. It’s explicitly deferred to avoid schedule slip. 
+Authentication Complexity:  Integrating Supabase Auth vs writing own JWT endpoints can be tricky.
+Mitigation:  Decide early. Supabase can accelerate auth, but we must learn its APIs; writing our own
+gives more control. 
+Data Loss:  If tests wipe the DB, use seed scripts or mocking. Automate backups if using real DB. 
+Deployment Failures:  Setting up Heroku/Netlify often needs config tweaks (e.g., buildpack). Allocate
+time (Days 12–13) to sort permissions. 
+Integration Bugs:  With so many moving parts, continuous testing is critical. Each day’s build should
+be minimally end-to-end functional. 
+Time Overruns:  Two hours is tight. Prioritize core flows (signup → create entries). For testing and CI,
+aim for basic sanity checks rather than full coverage. 
+Dependency Issues:  Keep library versions up-to-date but stable. Use LTS Node and well-supported
+React libraries. 
+Developer Tools:  Since Copilot will generate code, always review and test it. AI can introduce subtle
+bugs if unchecked.
+If a blocker arises (e.g., DB connection failure), move to the next task and return later . Maintain good
+commit discipline so we can rollback if needed.
+Tables and Diagrams
+Feature Comparison:  (see above).
+Dependencies:
+Dependency CareSuite-Web Well-Being-Hub Merged App (Planned)
+React – – ✔️ (frontend framework)
+Express/Node – – ✔️ (backend framework)
+MongoDB – – ✔️ (database choice)
+Supabase – – ✔️ (alternative backend/DB)
+Bootstrap/Tailwind – ✔️ (BB)
+ Optional (CSS framework)
+Axios/Fetch API – – ✔️ (for HTTP calls)
+Font Awesome ✔️
+ ✔️
+ Optional (icons)
+AOS, Typed.js, etc – ✔️
+ To decide (maybe drop)
+JWT – – ✔️ (auth tokens)
+Firebase/Auth – ✔️ (Auth)
+ Possibly (if using Supabase)
+Merged File/Module Map:• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+5 13
+12
+11Path / Component Purpose
+/src/App.jsx Root React component (Router and layout)
+/src/components/ Reusable UI components (Navbar , Footer , etc.)
+/src/pages/Mood.jsx Mood Tracker page (from CareSuite’s mood.html)
+/src/pages/Journal.jsx Journal page (from CareSuite’s journal.html)
+/src/pages/Fitness.jsx Fitness page (from CareSuite’s fitness.html)
+/src/pages/Audio.jsx Audio Therapy page (from Well-Being)
+/src/pages/Yoga.jsx Yoga Therapy page (from Well-Being)
+/src/pages/Laugh.jsx Laughing Therapy page (from Well-Being)
+/src/pages/Education.jsx Education page (from Well-Being)
+/src/pages/Game.jsx Mindfulness Game page (from Well-Being)
+/src/pages/Login.jsx Login page (from Well-Being, converted to React)
+/src/pages/Signup.jsx Signup page
+/src/services/api.js Helper for API calls to Node (Axios or Fetch)
+/backend/server.js Express app entry (API routes)
+/backend/routes/users.js User auth routes ( /signup , /login)
+/backend/routes/moods.js Mood routes ( /api/moods )
+/backend/routes/journal.js Journal routes ( /api/journal )
+/backend/routes/workouts.js Workout routes ( /api/workouts )
+/backend/models/* Mongoose/Supabase models (User , MoodEntry, etc.)
+Architecture Diagram:  (see above mermaid) – React frontend calls Express API, which talks to MongoDB/
+Supabase. Authentication flows through the backend (with JWT or Supabase Auth).
+Integration Flow:  When a user logs in (frontend → POST /api/users/login  → backend), the token is
+stored. Then submitting a mood triggers a backend request ( POST /api/moods ), which stores it in
+MongoDB. The frontend then fetches entries ( GET /api/moods ). All data flows through the API – no data
+is kept purely in-browser .
+Sample Commands & Scripts
+# Initialize projects
+npxcreate-react-app caresuite-frontend
+mkdircaresuite-backend &&cdcaresuite-backend &&npminit-y
+12npminstall express mongoose dotenv
+# Example Git commands
+gitcheckout -bfeature/auth-system
+gitadd.&&gitcommit-m"Add user signup/login API"
+gitpushoriginfeature/auth-system
+# Node startup
+nodeserver.js # starts backend on default port
+# React build (for deployment)
+cdcaresuite-frontend
+npmrunbuild # creates production static files
+GitHub Actions snippet (complete):
+name:CI/CD Pipeline
+on:[push]
+jobs:
+frontend :
+runs-on:ubuntu-latest
+steps:
+-uses:actions/checkout@v3
+-name:Use Node
+uses:actions/setup-node@v3
+with: node-version :'18'
+-name:Install and Test Frontend
+run:|
+cd caresuite-frontend
+npm ci
+npm run lint
+npm test
+-name:Build Frontend
+run:|
+npm run build
+-name:Deploy Frontend
+uses:JamesIves/github-pages-deploy-action@4.1.0
+with:
+branch:gh-pages
+folder:build
+backend:
+needs:frontend
+runs-on:ubuntu-latest
+steps:
+13-uses:actions/checkout@v3
+-name:Use Node
+uses:actions/setup-node@v3
+with: node-version :'18'
+-name:Install and Test Backend
+run:|
+cd caresuite-backend
+npm ci
+npm run lint
+npm test
+-name:Deploy to Heroku
+uses:akhileshns/heroku-deploy@v3.12.12
+with:
+heroku_api_key :${{ secrets.HEROKU_API_KEY }}
+heroku_app_name :caresuite-backend-prod
+heroku_email :dev@example.com
+Conclusion
+This plan turns the two static demos into a unified, modern web app with a solid backend and database. It
+addresses all requirements: careful parsing of READMEs , merging features (with chatbot deferred),
+designing a React/Node architecture, and a detailed schedule. With AI tools (e.g. Copilot) generating
+boilerplate, we focus on core logic and integration. This rigorous report should guide the 20-day effort to a
+fully working project.
+Sources:  CareSuite-Web README  and Well-Being-Hub README  provided all original
+features, tech stack, and structure details. The CareSuite code shows localStorage usage  (to replace with
+DB). All design decisions are built on these official sources.
+GitHub - Suryansh-asati/CareSuite-Web: An all-in-one mental and physical
+wellness assistant web app. · GitHub
+https://github.com/Suryansh-asati/CareSuite-Web
+CareSuite-Web/js/script.js at main · Suryansh-asati/CareSuite-Web · GitHub
+https://github.com/Suryansh-asati/CareSuite-Web/blob/main/js/script.js
+GitHub - Suryansh-asati/Well-Being-Hub · GitHub
+https://github.com/Suryansh-asati/Well-Being-Hub23 10
+2 4 5 10 22 14
+8
+1 2 3 4 5 6 723
+8
+910 11 12 13 14 15 16 17 18 19 20 21 22
+14
