@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 
 import { errorHandler } from './middleware/errorHandler.js';
 import baseRoutes from './routes/index.js';
+import authRoutes from './routes/auth.routes.js';
+import moodRoutes from './routes/mood.routes.js';
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api', baseRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/moods', moodRoutes);
 
 // Error Handling
 app.use(errorHandler);

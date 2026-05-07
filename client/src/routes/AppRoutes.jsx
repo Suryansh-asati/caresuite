@@ -2,6 +2,10 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import MoodTracker from '../pages/MoodTracker';
+import Journal from '../pages/Journal';
+import AudioTherapy from '../pages/AudioTherapy';
+import FitnessTracker from '../pages/FitnessTracker';
 import { useAuth } from '../context/AuthContext';
 
 // Basic Protected Route Wrapper
@@ -20,7 +24,11 @@ const AppRoutes = () => {
         {/* Protected Routes */}
         <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
           <Route index element={<Home />} />
-          {/* Add more routes here */}
+          <Route path="mood" element={<MoodTracker />} />
+          <Route path="journal" element={<Journal />} />
+          <Route path="fitness" element={<FitnessTracker />} />
+          <Route path="audio-therapy" element={<AudioTherapy />} />
+          {/* We will add Yoga, Laugh Therapy, Education etc. here */}
         </Route>
       </Routes>
     </BrowserRouter>
