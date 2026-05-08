@@ -1,7 +1,14 @@
-export const errorHandler = (err: any, req: any, res: any, next: any) => {
+import { Request, Response } from 'express';
+
+export const errorHandler = (
+  err: Error & { statusCode?: number },
+  _req: Request,
+  res: Response
+): void => {
+  // eslint-disable-next-line no-console
   console.error(err);
 
-  const statusCode = err.statusCode || 500;
+  const statusCode = ((err as Record<string, unknown>).statusCode as number) || 500;
   const message = err.message || 'Internal Server Error';
 
   res.status(statusCode).json({

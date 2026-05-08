@@ -4,6 +4,7 @@ import { UserPayload } from '../modules/auth/auth.types';
 
 // Extend Express Request type to include user
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       user?: UserPayload;
@@ -23,10 +24,12 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
   try {
     const secret = process.env.JWT_SECRET || 'fallback_secret';
     const decoded = jwt.verify(token, secret) as UserPayload;
-    
+
     req.user = decoded;
     next();
-  } catch (error) {
-    return res.status(401).json({ success: false, message: 'Unauthorized: Invalid or expired token' });
+  } catch {
+    return res
+      .status(401)
+      .json({ success: false, message: 'Unauthorized: Invalid or expired token' });
   }
 };

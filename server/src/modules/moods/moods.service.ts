@@ -7,7 +7,7 @@ export class MoodsService {
   async createMood(userId: string, data: CreateMoodInput) {
     return prisma.moodEntry.create({
       data: {
-        moodScore: parseInt(data.mood as any, 10) || 3, // fallback to 3
+        moodScore: parseInt(data.mood as unknown as string, 10) || 3, // fallback to 3
         note: data.note,
         userId,
       },

@@ -13,9 +13,10 @@ export class MoodsController {
       const mood = await moodsService.createMood(req.user.id, validatedData);
 
       res.status(201).json({ success: true, data: mood });
-    } catch (error: any) {
-      if (error.name === 'ZodError') {
-        return res.status(400).json({ success: false, errors: error.errors });
+    } catch (error: unknown) {
+      const err = error as { name?: string; errors?: unknown[] };
+      if (err.name === 'ZodError') {
+        return res.status(400).json({ success: false, errors: err.errors });
       }
       next(error);
     }
@@ -44,9 +45,10 @@ export class MoodsController {
       await moodsService.deleteMood(req.user.id, id);
 
       res.status(200).json({ success: true, message: 'Mood deleted successfully' });
-    } catch (error: any) {
-      if (error.name === 'ZodError') {
-        return res.status(400).json({ success: false, errors: error.errors });
+    } catch (error: unknown) {
+      const err = error as { name?: string; errors?: unknown[] };
+      if (err.name === 'ZodError') {
+        return res.status(400).json({ success: false, errors: err.errors });
       }
       next(error);
     }

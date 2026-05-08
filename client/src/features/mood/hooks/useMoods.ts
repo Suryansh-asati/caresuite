@@ -13,8 +13,9 @@ export const useMoods = () => {
     try {
       const data = await moodApi.getMoods();
       setMoods(data);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to fetch moods');
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || 'Failed to fetch moods');
     } finally {
       setLoading(false);
     }
@@ -30,8 +31,9 @@ export const useMoods = () => {
       const newMood = await moodApi.createMood({ mood, note });
       setMoods((prev) => [newMood, ...prev]);
       return true;
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to add mood');
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || 'Failed to add mood');
       return false;
     }
   };
@@ -42,8 +44,9 @@ export const useMoods = () => {
       await moodApi.deleteMood(id);
       setMoods((prev) => prev.filter((m) => m.id !== id));
       return true;
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to delete mood');
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || 'Failed to delete mood');
       return false;
     }
   };
