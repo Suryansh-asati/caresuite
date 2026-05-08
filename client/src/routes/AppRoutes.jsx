@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import MoodTracker from '../pages/MoodTracker';
+import MoodTrackerPage from '../features/mood/pages/MoodTrackerPage';
 import Journal from '../pages/Journal';
 import AudioTherapy from '../pages/AudioTherapy';
 import FitnessTracker from '../pages/FitnessTracker';
@@ -24,7 +24,7 @@ const AppRoutes = () => {
         {/* Protected Routes */}
         <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
           <Route index element={<Home />} />
-          <Route path="mood" element={<MoodTracker />} />
+          <Route path="mood" element={<MoodTrackerPage />} />
           <Route path="journal" element={<Journal />} />
           <Route path="fitness" element={<FitnessTracker />} />
           <Route path="audio-therapy" element={<AudioTherapy />} />
