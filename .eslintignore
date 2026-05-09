@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+coverage/
+.git/
+.vscode/
+.idea/
+**/*.min.js
+**/dist/
+**/build/
+server/dist/
+client/dist/
