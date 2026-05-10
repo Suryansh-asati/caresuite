@@ -8,10 +8,13 @@ import AudioTherapy from '../pages/AudioTherapy';
 import FitnessTracker from '../pages/FitnessTracker';
 import { useAuth } from '../context/AuthContext';
 
-// Basic Protected Route Wrapper
+// Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) return <div className="flex items-center justify-center h-screen">Loading...</div>;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
+
   return children;
 };
 
