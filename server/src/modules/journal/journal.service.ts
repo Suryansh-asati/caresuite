@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import type { CreateJournalInput, UpdateJournalInput } from './journal.types';
+import type { CreateJournalInput, UpdateJournalInput } from './journal.schema';
 
 const prisma = new PrismaClient();
 

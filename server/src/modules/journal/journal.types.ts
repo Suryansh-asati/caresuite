@@ -1,10 +1,3 @@
-export interface CreateJournalInput {
-  title: string;
-  content: string;
-}
-
-export type UpdateJournalInput = CreateJournalInput;
-
 export interface JournalEntryResponse {
   id: string;
   title: string;

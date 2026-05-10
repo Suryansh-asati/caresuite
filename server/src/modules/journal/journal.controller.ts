@@ -2,12 +2,6 @@ import type { NextFunction, Request, Response } from 'express';
 import { createJournalSchema, journalIdSchema, updateJournalSchema } from './journal.schema';
 import { journalService } from './journal.service';
 
-type AuthenticatedRequest = Request & {
-  user?: {
-    id: string;
-  };
-};
-
 export class JournalController {
   async createEntry(req: Request, res: Response, next: NextFunction) {
     try {
@@ -17,7 +11,7 @@ export class JournalController {
 
       const validatedData = createJournalSchema.parse(req).body;
       const newEntry = await journalService.createEntry(
-        (req as AuthenticatedRequest).user.id,
+        req.user.id,
         validatedData
       );
 
