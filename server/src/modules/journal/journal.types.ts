@@ -3,10 +3,7 @@ export interface CreateJournalInput {
   content: string;
 }
 
-export interface UpdateJournalInput {
-  title: string;
-  content: string;
-}
+export type UpdateJournalInput = CreateJournalInput;
 
 export interface JournalEntryResponse {
   id: string;
