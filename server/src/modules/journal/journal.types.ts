@@ -2,7 +2,7 @@ export interface JournalEntryResponse {
   id: string;
   title: string;
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   userId: string;
 }
