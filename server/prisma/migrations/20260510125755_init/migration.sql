@@ -48,7 +48,7 @@ CREATE TABLE "WorkoutEntry" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"(lower("email"));
 
 -- CreateIndex
 CREATE INDEX "MoodEntry_userId_date_idx" ON "MoodEntry"("userId", "date");

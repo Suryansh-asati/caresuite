@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -36,7 +38,8 @@ const Login = () => {
       login(user, token);
       navigate('/');
     } catch (err) {
-      setError(err.message || 'An error occurred');
+      const msg = (err && typeof err.message === 'string' && err.message) || (typeof err === 'string' ? err : String(err)) || 'An error occurred';
+      setError(msg);
       setIsLoading(false);
     }
   };
@@ -47,7 +50,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: 'User', email, password }),
@@ -66,7 +69,8 @@ const Login = () => {
       login(user, token);
       navigate('/');
     } catch (err) {
-      setError(err.message || 'An error occurred');
+      const msg = (err && typeof err.message === 'string' && err.message) || (typeof err === 'string' ? err : String(err)) || 'An error occurred';
+      setError(msg);
       setIsLoading(false);
     }
   };
@@ -82,7 +86,7 @@ const Login = () => {
 
         {error && <div className="p-3 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
@@ -116,7 +120,7 @@ const Login = () => {
 
           <div className="space-y-3">
             <button
-              onClick={handleLogin}
+              type="submit"
               disabled={isLoading}
               className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50"
             >
@@ -124,6 +128,7 @@ const Login = () => {
             </button>
 
             <button
+              type="button"
               onClick={handleRegister}
               disabled={isLoading}
               className="w-full flex justify-center py-2 px-4 border border-indigo-600 text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 disabled:opacity-50"

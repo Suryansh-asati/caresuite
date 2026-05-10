@@ -11,7 +11,24 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      setIsAuthenticated(true);
+      try {
+        // Decode JWT and check expiration
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = payload.exp && payload.exp * 1000 < Date.now();
+
+        if (isExpired) {
+          // Token expired, clear storage
+          localStorage.removeItem('token');
+          setIsAuthenticated(false);
+        } else {
+          // Token is valid
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        // Invalid token, clear storage
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+      }
     }
     setLoading(false);
   }, []);
@@ -30,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, setIsAuthenticated, loading, login, logout }}
+      value={{ user, isAuthenticated, loading, login, logout }}
     >
       {children}
     </AuthContext.Provider>

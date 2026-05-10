@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsx src/index.js",
     "dev": "tsx watch src/index.js",
+    "build": "tsc --noEmit",
     "lint": "eslint src"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "eslint-config-prettier": "^9.1.2",
     "nodemon": "^3.0.1",
     "prettier": "^3.1.0",
-    "prisma": "^5.22.0"
+    "prisma": "^5.22.0",
+    "typescript": "^5.9.3"
   }
 }
