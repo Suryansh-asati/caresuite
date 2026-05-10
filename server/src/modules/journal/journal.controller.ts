@@ -25,7 +25,11 @@ export class JournalController {
         success: true,
         data: newEntry,
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error as { name?: string; errors?: unknown[] };
+      if (err.name === 'ZodError') {
+        return res.status(400).json({ success: false, errors: err.errors });
+      }
       next(error);
     }
   }
@@ -61,7 +65,11 @@ export class JournalController {
         success: true,
         data: updatedEntry,
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error as { name?: string; errors?: unknown[] };
+      if (err.name === 'ZodError') {
+        return res.status(400).json({ success: false, errors: err.errors });
+      }
       next(error);
     }
   }
@@ -79,7 +87,11 @@ export class JournalController {
         success: true,
         message: 'Journal entry deleted successfully',
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error as { name?: string; errors?: unknown[] };
+      if (err.name === 'ZodError') {
+        return res.status(400).json({ success: false, errors: err.errors });
+      }
       next(error);
     }
   }
