@@ -49,6 +49,7 @@ model JournalEntry {
   
   @@index([userId])
   @@index([createdAt])
+  @@index([userId, createdAt])
 }
 
 model WorkoutEntry {
