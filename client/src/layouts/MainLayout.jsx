@@ -14,7 +14,7 @@ const MainLayout = () => {
     { path: '/', label: 'Home' },
     { path: '/mood', label: 'Mood Tracker' },
     { path: '/journal', label: 'Journal' },
-    { path: '/fitness', label: 'Fitness' },
+    { path: '/workouts', label: 'Workouts' },
     { path: '/audio-therapy', label: 'Audio Therapy' },
   ];
 

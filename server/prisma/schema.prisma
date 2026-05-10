@@ -16,7 +16,7 @@ model User {
   // Relations
   moods        MoodEntry[]
   journals     JournalEntry[]
-  workouts     WorkoutEntry[]
+  workouts     WorkoutSession[]
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
@@ -52,17 +52,32 @@ model JournalEntry {
   @@index([userId, createdAt])
 }
 
-model WorkoutEntry {
-  id           String   @id @default(uuid())
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  type         String   // e.g., Yoga, Running, Strength
-  durationMins Int
-  intensity    String?
-  calories     Int?
+model WorkoutSession {
+  id         String           @id @default(cuid())
+  title      String
+  workoutType String
+  duration   Int?
+  calories   Int?
+  notes      String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercises  WorkoutExercise[]
 
-  date         DateTime @default(now())
+  @@index([userId])
+  @@index([createdAt])
+}
 
-  @@index([userId, date])
+model WorkoutExercise {
+  id        String          @id @default(cuid())
+  name      String
+  sets      Int?
+  reps      Int?
+  weight    Float?
+  workoutId String
+  workout   WorkoutSession  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  createdAt DateTime        @default(now())
+
+  @@index([workoutId])
 }

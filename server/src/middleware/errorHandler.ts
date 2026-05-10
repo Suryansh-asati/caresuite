@@ -8,7 +8,7 @@ export const errorHandler = (
   // eslint-disable-next-line no-console
   console.error(err);
 
-  const statusCode = ((err as Record<string, unknown>).statusCode as number) || 500;
+  const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
 
   res.status(statusCode).json({

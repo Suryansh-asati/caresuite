@@ -5,7 +5,7 @@ import Login from '../pages/Login';
 import MoodTrackerPage from '../features/mood/pages/MoodTrackerPage';
 import JournalPage from '../features/journal/pages/JournalPage';
 import AudioTherapy from '../pages/AudioTherapy';
-import FitnessTracker from '../pages/FitnessTracker';
+import WorkoutsPage from '../features/workouts/pages/WorkoutsPage';
 import { useAuth } from '../context/AuthContext';
 
 // Protected Route Wrapper
@@ -36,7 +36,9 @@ const AppRoutes = () => {
           <Route index element={<Home />} />
           <Route path="mood" element={<MoodTrackerPage />} />
           <Route path="journal" element={<JournalPage />} />
-          <Route path="fitness" element={<FitnessTracker />} />
+          <Route path="workouts" element={<WorkoutsPage />} />
+          <Route path="workouts/:id" element={<WorkoutsPage />} />
+          <Route path="fitness" element={<Navigate to="/workouts" replace />} />
           <Route path="audio-therapy" element={<AudioTherapy />} />
           {/* We will add Yoga, Laugh Therapy, Education etc. here */}
         </Route>

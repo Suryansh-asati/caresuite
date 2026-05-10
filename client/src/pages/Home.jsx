@@ -15,10 +15,10 @@ const Home = () => {
       icon: '📝',
     },
     {
-      title: 'Fitness Tracker',
-      description: 'Monitor your physical activity and fitness goals.',
-      path: '/fitness',
-      icon: '💪',
+      title: 'Workouts',
+      description: 'Log gentle workout sessions and keep your routine steady.',
+      path: '/workouts',
+      icon: '🏃',
     },
     {
       title: 'Audio Therapy',
