@@ -3,7 +3,7 @@ import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import MoodTrackerPage from '../features/mood/pages/MoodTrackerPage';
-import Journal from '../pages/Journal';
+import JournalPage from '../features/journal/pages/JournalPage';
 import AudioTherapy from '../pages/AudioTherapy';
 import FitnessTracker from '../pages/FitnessTracker';
 import { useAuth } from '../context/AuthContext';
@@ -20,12 +20,19 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        
+
         {/* Protected Routes */}
-        <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Home />} />
           <Route path="mood" element={<MoodTrackerPage />} />
-          <Route path="journal" element={<Journal />} />
+          <Route path="journal" element={<JournalPage />} />
           <Route path="fitness" element={<FitnessTracker />} />
           <Route path="audio-therapy" element={<AudioTherapy />} />
           {/* We will add Yoga, Laugh Therapy, Education etc. here */}
