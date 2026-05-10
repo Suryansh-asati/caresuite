@@ -5,7 +5,7 @@ import { registerSchema, loginSchema } from './auth.schema';
 export class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const validatedData = registerSchema.parse(req).body;
+      const validatedData = registerSchema.parse({ body: req.body }).body;
       const result = await authService.register(validatedData);
 
       res.status(201).json({
@@ -27,7 +27,7 @@ export class AuthController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const validatedData = loginSchema.parse(req).body;
+      const validatedData = loginSchema.parse({ body: req.body }).body;
       const result = await authService.login(validatedData);
 
       res.status(200).json({

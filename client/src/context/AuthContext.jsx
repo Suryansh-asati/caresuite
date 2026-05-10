@@ -5,18 +5,36 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-  // Setup logic for checking session etc.
+  const [loading, setLoading] = useState(true);
+
+  // Check for existing token on mount
   useEffect(() => {
-    // Stub - Replace with real Supabase checking logic
-    setIsAuthenticated(false);
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+    setLoading(false);
   }, []);
 
+  const login = (userData, token) => {
+    localStorage.setItem('token', token);
+    setUser(userData);
+    setIsAuthenticated(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, setIsAuthenticated, loading, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export const useAuth = () => useContext(AuthContext);
