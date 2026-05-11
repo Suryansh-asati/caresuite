@@ -2,10 +2,6 @@
   "name": "caresuite",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "scripts": {
     "prepare": "husky install || true",
     "lint": "eslint client/src server/src --ext .js,.jsx,.ts,.tsx",
