@@ -9,6 +9,7 @@ import baseRoutes from './routes/index.js';
 import authRoutes from './modules/auth/auth.routes.ts';
 import moodRoutes from './modules/moods/moods.routes.ts';
 import journalRoutes from './modules/journal/journal.routes.ts';
+import workoutRoutes from './modules/workouts/workouts.routes.ts';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use('/api', baseRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/moods', moodRoutes);
 app.use('/api/journal', journalRoutes);
+app.use('/api/workouts', workoutRoutes);
 
 // Error Handling
 app.use(errorHandler);
