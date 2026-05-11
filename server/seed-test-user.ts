@@ -33,9 +33,9 @@ async function seedTestUser() {
     console.log(`  ID: ${user.id}`);
     console.log(`  Email: ${user.email}`);
     console.log(`  Name: ${user.name}`);
-    console.log('\nUse these credentials to login:');
+    console.log('\nUse this account to login:');
     console.log(`  Email: ${testEmail}`);
-    console.log(`  Password: ${testPassword}`);
+    console.log('  Password: configured in the seed script; not printed to stdout.');
 
     return user;
   } catch (error) {
