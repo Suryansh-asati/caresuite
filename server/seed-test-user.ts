@@ -5,8 +5,16 @@ const prisma = new PrismaClient();
 
 async function seedTestUser() {
   try {
-    const testEmail = 'test@caresuite.com';
-    const testPassword = 'Test@123456';
+    if (process.env.NODE_ENV !== 'development') {
+      throw new Error('This script can only run in development mode');
+    }
+
+    const testEmail = process.env.TEST_USER_EMAIL;
+    const testPassword = process.env.TEST_USER_PASSWORD;
+
+    if (!testEmail || !testPassword) {
+      throw new Error('TEST_USER_EMAIL and TEST_USER_PASSWORD must be set');
+    }
 
     // Check if test user already exists
     const existingUser = await prisma.user.findUnique({
@@ -35,7 +43,7 @@ async function seedTestUser() {
     console.log(`  Name: ${user.name}`);
     console.log('\nUse this account to login:');
     console.log(`  Email: ${testEmail}`);
-    console.log('  Password: configured in the seed script; not printed to stdout.');
+    console.log('  Password: read from TEST_USER_PASSWORD and not printed to stdout.');
 
     return user;
   } catch (error) {

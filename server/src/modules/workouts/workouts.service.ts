@@ -18,6 +18,10 @@ const createHttpError = (statusCode: number, message: string) => {
 };
 
 const normalizeNotes = (notes?: string | null) => {
+  if (notes === undefined) {
+    return undefined;
+  }
+
   const trimmedNotes = notes?.trim();
   return trimmedNotes ? trimmedNotes : null;
 };
@@ -94,8 +98,8 @@ export class WorkoutsService {
       data: {
         title: data.title.trim(),
         workoutType: data.workoutType,
-        duration: data.duration ?? null,
-        calories: data.calories ?? null,
+        duration: data.duration,
+        calories: data.calories,
         notes: normalizeNotes(data.notes),
         exercises:
           exercises === undefined
