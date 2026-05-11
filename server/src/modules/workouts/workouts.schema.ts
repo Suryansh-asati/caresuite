@@ -26,7 +26,7 @@ export const createWorkoutSchema = z.object({
   body: z.object({
     title: workoutTitleSchema,
     workoutType: z.enum(workoutTypes),
-    duration: z.coerce.number().int().min(1, 'Duration must be at least 1 minute').optional(),
+    duration: z.coerce.number().int().min(1, 'Duration must be at least 1 minute'),
     calories: z.coerce.number().int().min(0).optional(),
     notes: z.string().trim().max(2000).optional(),
     exercises: z.array(workoutExerciseSchema).optional(),
