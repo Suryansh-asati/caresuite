@@ -178,11 +178,11 @@ const Login = () => {
 
         {!isSignUp && import.meta.env.DEV && (
           <div className="p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-800">
-            <p className="font-medium">Demo credentials:</p>
-            <p>Email: test@caresuite.com</p>
-            <p>Password: Test@123456</p>
+            <p className="font-medium">Development login hint:</p>
+            <p>Use the test credentials configured in your local seed environment variables.</p>
           </div>
         )}
+      </div>
     </div>
   );
 };
