@@ -1,0 +1,12 @@
+export { DashboardPage } from './pages/DashboardPage';
+export { WelcomeSection } from './components/WelcomeSection';
+export { SummaryCardsGrid } from './components/SummaryCardsGrid';
+export { SnapshotsSection } from './components/SnapshotsSection';
+export { RecentActivityFeed } from './components/RecentActivityFeed';
+export { SummaryCard } from './components/SummaryCard';
+export { SectionCard } from './components/SectionCard';
+export { EmptyState } from './components/EmptyState';
+export { LoadingSpinner } from './components/LoadingSpinner';
+export { PageContainer } from './components/PageContainer';
+export { useDashboard } from './hooks/useDashboard';
+export { dashboardApi } from './api/dashboard.api';

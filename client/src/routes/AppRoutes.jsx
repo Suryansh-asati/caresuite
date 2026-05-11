@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
-import Home from '../pages/Home';
+import DashboardPage from '../features/dashboard/pages/DashboardPage';
 import Login from '../pages/Login';
 import MoodTrackerPage from '../features/mood/pages/MoodTrackerPage';
 import JournalPage from '../features/journal/pages/JournalPage';
@@ -33,7 +33,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Home />} />
+          <Route index element={<DashboardPage />} />
           <Route path="mood" element={<MoodTrackerPage />} />
           <Route path="journal" element={<JournalPage />} />
           <Route path="workouts" element={<WorkoutsPage />} />
