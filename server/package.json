@@ -4,10 +4,11 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "tsx src/index.js",
+    "start": "node src/index.js",
     "dev": "tsx watch src/index.js",
-    "build": "tsc --noEmit",
-    "lint": "eslint src"
+    "build": "prisma generate",
+    "lint": "eslint src",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
