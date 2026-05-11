@@ -176,12 +176,13 @@ const Login = () => {
           </button>
         </form>
 
-        {!isSignUp && (
+        {!isSignUp && import.meta.env.DEV && (
           <div className="p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-800">
             <p className="font-medium">Demo credentials:</p>
             <p>Email: test@caresuite.com</p>
             <p>Password: Test@123456</p>
           </div>
+        )}
         )}
       </div>
     </div>
