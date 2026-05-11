@@ -41,7 +41,7 @@ async function seedTestUser() {
     console.log(`  ID: ${user.id}`);
     console.log(`  Email: ${user.email}`);
     console.log(`  Name: ${user.name}`);
-    console.log('\nUse this account to login:');
+    console.log('\nUse this account to login with the configured seed environment variables.');
     console.log(`  Email: ${testEmail}`);
     console.log('  Password: read from TEST_USER_PASSWORD and not printed to stdout.');
 
