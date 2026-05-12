@@ -56,9 +56,9 @@ export class DashboardService {
             workoutType: true,
             duration: true,
             createdAt: true,
-            exercises: {
+            _count: {
               select: {
-                id: true,
+                exercises: true,
               },
             },
           },
