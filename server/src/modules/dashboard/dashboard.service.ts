@@ -13,15 +13,7 @@ const prisma = new PrismaClient();
 export class DashboardService {
   async getDashboardOverview(userId: string): Promise<DashboardOverviewResponse> {
     // Fetch all data in parallel for efficiency
-    const [
-      moodCount,
-      journalCount,
-      workoutCount,
-      workoutDurationData,
-      latestMood,
-      latestJournal,
-      latestWorkout,
-    ] =
+    const [moodCount, journalCount, workoutData, latestMood, latestJournal, latestWorkout] =
       await Promise.all([
         prisma.moodEntry.count({
           where: { userId },
@@ -29,11 +21,11 @@ export class DashboardService {
         prisma.journalEntry.count({
           where: { userId },
         }),
-        prisma.workoutSession.count({
-          where: { userId },
-        }),
         prisma.workoutSession.aggregate({
           where: { userId },
+          _count: {
+            _all: true,
+          },
           _sum: {
             duration: true,
           },
@@ -79,8 +71,8 @@ export class DashboardService {
     const summaryCards: DashboardSummaryCards = {
       moodEntries: moodCount,
       journalEntries: journalCount,
-      workoutSessions: workoutCount,
-      workoutMinutes: workoutDurationData._sum.duration ?? 0,
+      workoutSessions: workoutData._count._all,
+      workoutMinutes: workoutData._sum.duration ?? 0,
     };
 
     // Build latest entries
