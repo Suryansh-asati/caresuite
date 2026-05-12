@@ -9,6 +9,8 @@ const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   isLoading = false,
   disabled,
+  className = '',
+  type = 'button',
   children,
   ...props
 }) => {
@@ -22,9 +24,10 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`${baseClasses} ${variantClasses[variant]} ${disabled || isLoading ? disabledClasses : ''}`}
-      disabled={disabled || isLoading}
       {...props}
+      type={type}
+      className={`${baseClasses} ${variantClasses[variant]} ${disabled || isLoading ? disabledClasses : ''} ${className}`.trim()}
+      disabled={disabled || isLoading}
     >
       {isLoading ? 'Loading...' : children}
     </button>
