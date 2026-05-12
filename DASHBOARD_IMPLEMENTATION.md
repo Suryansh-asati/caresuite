@@ -240,7 +240,7 @@ dashboard/
 - Parallel queries reduce latency
 - Prisma aggregate functions are efficient
 - Field selection minimizes response size
-- Database indexes on userId and createdAt
+- Existing Prisma indexes support dashboard queries (for example, `MoodEntry` uses a composite index on `[userId, date]`)
 
 **Frontend:**
 
