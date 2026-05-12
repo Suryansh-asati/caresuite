@@ -6,6 +6,7 @@ import MoodTrackerPage from '../features/mood/pages/MoodTrackerPage';
 import JournalPage from '../features/journal/pages/JournalPage';
 import AudioTherapy from '../pages/AudioTherapy';
 import WorkoutsPage from '../features/workouts/pages/WorkoutsPage';
+import ContentLibrary from '../pages/ContentLibrary';
 import { useAuth } from '../context/AuthContext';
 
 // Protected Route Wrapper
@@ -40,6 +41,7 @@ const AppRoutes = () => {
           <Route path="workouts/:id" element={<WorkoutsPage />} />
           <Route path="fitness" element={<Navigate to="/workouts" replace />} />
           <Route path="audio-therapy" element={<AudioTherapy />} />
+          <Route path="content" element={<ContentLibrary />} />
           {/* We will add Yoga, Laugh Therapy, Education etc. here */}
         </Route>
       </Routes>

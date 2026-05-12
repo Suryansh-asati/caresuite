@@ -13,6 +13,7 @@ const MainLayout = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
+    { path: '/content', label: 'Content Library' },
     { path: '/mood', label: 'Mood Tracker' },
     { path: '/journal', label: 'Journal' },
     { path: '/workouts', label: 'Workouts' },
