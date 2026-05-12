@@ -1,9 +1,29 @@
+import PageContainer from '../shared/layout/PageContainer';
+import SectionHeader from '../shared/ui/SectionHeader';
+import Button from '../shared/ui/Button';
+import EmptyState from '../shared/ui/EmptyState';
+
 const Journal = () => {
+  // Placeholder data
+  const entries = [];
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Personal Journal</h1>
-      <p>Write your thoughts and reflections.</p>
-    </div>
+    <PageContainer>
+      <SectionHeader
+        title="Personal Journal"
+        subtitle="Write your thoughts and reflections."
+        action={<Button>New Entry</Button>}
+      />
+      {entries.length === 0 ? (
+        <EmptyState
+          title="No journal entries yet"
+          message="Start by writing your first entry."
+          action={<Button>Create New Entry</Button>}
+        />
+      ) : (
+        <div>{/* Render entries here */}</div>
+      )}
+    </PageContainer>
   );
 };
 

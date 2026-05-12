@@ -1,9 +1,29 @@
+import PageContainer from '../shared/layout/PageContainer';
+import SectionHeader from '../shared/ui/SectionHeader';
+import Button from '../shared/ui/Button';
+import EmptyState from '../shared/ui/EmptyState';
+
 const FitnessTracker = () => {
+  // Placeholder data
+  const workouts = [];
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Fitness Tracker</h1>
-      <p>Log your daily workouts, steps, and calories.</p>
-    </div>
+    <PageContainer>
+      <SectionHeader
+        title="Fitness Tracker"
+        subtitle="Log your daily workouts, steps, and calories."
+        action={<Button>Log Workout</Button>}
+      />
+      {workouts.length === 0 ? (
+        <EmptyState
+          title="No workouts logged yet"
+          message="Start by logging your first workout."
+          action={<Button>Log Your First Workout</Button>}
+        />
+      ) : (
+        <div>{/* Render workouts here */}</div>
+      )}
+    </PageContainer>
   );
 };
 
