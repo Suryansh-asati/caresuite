@@ -92,13 +92,23 @@ const ContentLibrary = () => {
       ? libraryItems
       : libraryItems.filter((item) => item.category === selectedCategory);
 
+  // TODO: Implement navigation to session flow
+  const handleStartSession = () => {
+    console.log('Navigate to session flow');
+  };
+
+  // TODO: Implement content detail view (navigate to detail page or open modal)
+  const handleOpenContent = (itemId) => {
+    console.log('Open content detail for:', itemId);
+  };
+
   return (
     <PageContainer>
       <SectionHero
         title="Content Library"
         subtitle="Browse wellness sessions and resources built on the shared content system."
         actions={
-          <Button variant="secondary" onClick={() => {}}>
+          <Button variant="secondary" onClick={handleStartSession}>
             Start a session
           </Button>
         }
@@ -119,7 +129,7 @@ const ContentLibrary = () => {
             />
           }
           renderItem={(item) => (
-            <ContentCard key={item.id} item={item} ctaLabel="View details" onCtaClick={() => {}} />
+            <ContentCard key={item.id} item={item} ctaLabel="View details" onCtaClick={() => handleOpenContent(item.id)} />
           )}
         />
       </div>

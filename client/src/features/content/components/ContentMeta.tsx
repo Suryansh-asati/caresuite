@@ -9,11 +9,26 @@ interface ContentMetaProps {
 }
 
 const formatDate = (value: string | Date) => {
-  const date = value instanceof Date ? value : new Date(value);
+  let date: Date;
+
+  if (value instanceof Date) {
+    date = value;
+  } else if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    // Date-only string: append UTC time to avoid timezone shifts
+    date = new Date(value + 'T00:00:00Z');
+  } else {
+    date = new Date(value);
+  }
+
   if (Number.isNaN(date.valueOf())) {
     return null;
   }
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC'
+  });
 };
 
 export const ContentMeta: React.FC<ContentMetaProps> = ({
