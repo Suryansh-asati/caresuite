@@ -35,6 +35,12 @@ const getMoodEmoji = (moodScore: number) => {
   return moodMap[moodScore] || '😐';
 };
 
+const moodLabels = ['Terrible', 'Bad', 'Okay', 'Good', 'Great'];
+
+const getMoodLabel = (moodScore: number) => {
+  return moodLabels[moodScore - 1] ?? 'Unknown';
+};
+
 export const SnapshotsSection: React.FC<SnapshotsSectionProps> = ({
   latestMood,
   latestJournal,
@@ -50,9 +56,7 @@ export const SnapshotsSection: React.FC<SnapshotsSectionProps> = ({
               <div className="text-4xl">{getMoodEmoji(latestMood.mood)}</div>
               <div>
                 <p className="text-sm text-gray-600">Feeling</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {['Terrible', 'Bad', 'Okay', 'Good', 'Great'][latestMood.mood - 1]}
-                </p>
+                <p className="text-lg font-semibold text-gray-900">{getMoodLabel(latestMood.mood)}</p>
               </div>
             </div>
             {latestMood.note && (
@@ -93,7 +97,7 @@ export const SnapshotsSection: React.FC<SnapshotsSectionProps> = ({
                 <p className="text-gray-600">Type</p>
                 <p className="font-medium text-gray-900 capitalize">{latestWorkout.workoutType}</p>
               </div>
-              {latestWorkout.duration && (
+              {latestWorkout.duration != null && (
                 <div className="text-sm">
                   <p className="text-gray-600">Duration</p>
                   <p className="font-medium text-gray-900">{latestWorkout.duration} min</p>
