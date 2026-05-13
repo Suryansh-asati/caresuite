@@ -11,6 +11,7 @@ import moodRoutes from './modules/moods/moods.routes.ts';
 import journalRoutes from './modules/journal/journal.routes.ts';
 import workoutRoutes from './modules/workouts/workouts.routes.ts';
 import dashboardRoutes from './modules/dashboard/dashboard.routes.ts';
+import therapyRoutes from './modules/therapy/therapy.routes.ts';
 
 dotenv.config();
 
@@ -30,10 +31,11 @@ app.use('/api/moods', moodRoutes);
 app.use('/api/journal', journalRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/therapy', therapyRoutes);
 
 // Error Handling
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  process.stdout.write(`Server running on port ${PORT}\n`);
 });
