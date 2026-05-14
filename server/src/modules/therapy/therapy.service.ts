@@ -1,15 +1,7 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import type { TherapySessionDto, TherapySessionFilters } from './therapy.types';
-import { prisma } from '../../lib/prisma';
 
-class NotFoundError extends Error {
-  statusCode = 404;
-
-  constructor(message: string) {
-    super(message);
-    this.name = 'NotFoundError';
-  }
-}
+const prisma = new PrismaClient();
 
 export class TherapyService {
   async getTherapySessions(filters: TherapySessionFilters = {}): Promise<TherapySessionDto[]> {
@@ -25,7 +17,7 @@ export class TherapyService {
     });
 
     if (!therapySession) {
-      throw new NotFoundError('Therapy session not found');
+      throw { statusCode: 404, message: 'Therapy session not found' };
     }
 
     return therapySession;
