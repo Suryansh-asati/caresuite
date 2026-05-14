@@ -21,12 +21,16 @@ export const TherapyPlayer: React.FC<TherapyPlayerProps> = ({
 
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      audioRef.current.play().catch(() => {
-        // Handle autoplay restrictions silently
-      });
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          // Handle autoplay restrictions silently
+          setIsPlaying(false);
+        });
+      return;
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleTimeUpdate = () => {
