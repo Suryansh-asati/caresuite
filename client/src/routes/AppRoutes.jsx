@@ -4,9 +4,9 @@ import DashboardPage from '../features/dashboard/pages/DashboardPage';
 import Login from '../pages/Login';
 import MoodTrackerPage from '../features/mood/pages/MoodTrackerPage';
 import JournalPage from '../features/journal/pages/JournalPage';
-import AudioTherapy from '../pages/AudioTherapy';
 import WorkoutsPage from '../features/workouts/pages/WorkoutsPage';
 import ContentLibrary from '../pages/ContentLibrary';
+import { TherapyDetailPage, TherapyHomePage } from '../features/therapy';
 import { useAuth } from '../context/AuthContext';
 
 // Protected Route Wrapper
@@ -40,7 +40,9 @@ const AppRoutes = () => {
           <Route path="workouts" element={<WorkoutsPage />} />
           <Route path="workouts/:id" element={<WorkoutsPage />} />
           <Route path="fitness" element={<Navigate to="/workouts" replace />} />
-          <Route path="audio-therapy" element={<AudioTherapy />} />
+          <Route path="therapy" element={<TherapyHomePage />} />
+          <Route path="therapy/:id" element={<TherapyDetailPage />} />
+          <Route path="audio-therapy" element={<Navigate to="/therapy" replace />} />
           <Route path="content" element={<ContentLibrary />} />
           {/* We will add Yoga, Laugh Therapy, Education etc. here */}
         </Route>

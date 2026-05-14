@@ -9,6 +9,7 @@
     "dev": "tsx watch src/index.js",
     "build": "prisma generate",
     "lint": "eslint src",
+    "seed:therapy": "tsx prisma/seeds/therapySessions.seed.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
