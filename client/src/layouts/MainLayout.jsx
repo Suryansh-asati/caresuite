@@ -1,4 +1,4 @@
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../shared/ui/Button';
 
@@ -17,7 +17,7 @@ const MainLayout = () => {
     { path: '/mood', label: 'Mood Tracker' },
     { path: '/journal', label: 'Journal' },
     { path: '/workouts', label: 'Workouts' },
-    { path: '/audio-therapy', label: 'Audio Therapy' },
+    { path: '/therapy', label: 'Audio Therapy' },
   ];
 
   return (
@@ -35,13 +35,19 @@ const MainLayout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             {navItems.map((item) => (
-              <Link
+              <NavLink
                 key={item.path}
                 to={item.path}
-                className="py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
+                className={({ isActive }) =>
+                  `py-4 px-1 border-b-2 font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                    isActive
+                      ? 'border-emerald-400 text-emerald-800'
+                      : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+                  }`
+                }
               >
                 {item.label}
-              </Link>
+              </NavLink>
             ))}
           </div>
         </div>

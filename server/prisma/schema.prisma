@@ -81,3 +81,17 @@ model WorkoutExercise {
 
   @@index([workoutId])
 }
+
+model TherapySession {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String
+  duration    Int
+  thumbnail   String?
+  audioUrl    String
+  createdAt   DateTime @default(now())
+
+  @@index([category])
+  @@index([createdAt])
+}
