@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
+import { ZodError } from 'zod';
 import { therapyService } from './therapy.service';
 import { listTherapySchema, therapyIdSchema } from './therapy.validation';
 
@@ -10,9 +11,8 @@ export class TherapyController {
 
       res.status(200).json({ success: true, data: sessions });
     } catch (error: unknown) {
-      const err = error as { name?: string; errors?: unknown[] };
-      if (err.name === 'ZodError') {
-        return res.status(400).json({ success: false, errors: err.errors });
+      if (error instanceof ZodError) {
+        return res.status(400).json({ success: false, errors: error.issues });
       }
 
       next(error);
@@ -26,9 +26,8 @@ export class TherapyController {
 
       res.status(200).json({ success: true, data: session });
     } catch (error: unknown) {
-      const err = error as { name?: string; errors?: unknown[] };
-      if (err.name === 'ZodError') {
-        return res.status(400).json({ success: false, errors: err.errors });
+      if (error instanceof ZodError) {
+        return res.status(400).json({ success: false, errors: error.issues });
       }
 
       next(error);
