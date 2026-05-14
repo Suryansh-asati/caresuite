@@ -39,18 +39,16 @@ const TherapyHomePage: React.FC = () => {
 
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Debug Info - Remove in production */}
         {(error || categoriesError) && (
           <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4">
-            <p className="text-sm font-medium text-amber-900">⚠️ Debug Info:</p>
-            {error && <p className="text-xs text-amber-800">Sessions error: {error}</p>}
-            {categoriesError && (
-              <p className="text-xs text-amber-800">Categories error: {categoriesError}</p>
-            )}
-            <p className="text-xs text-amber-700 mt-2">
-              💡 Ensure backend is running and database migration completed.
+            <p className="text-sm font-medium text-amber-900">
+              Some content could not be loaded right now.
+            </p>
+            <p className="mt-2 text-xs text-amber-800">
+              Please try again in a moment.
             </p>
           </div>
+        )}
         )}
 
         {/* Category Filter */}
