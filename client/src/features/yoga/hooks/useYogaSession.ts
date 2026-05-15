@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { yogaApi } from '../api/yogaApi';
 import type { YogaSession } from '../types/yoga.types';
-
-const getErrorMessage = (error: unknown, fallbackMessage: string) => {
-  const axiosError = error as { response?: { data?: { message?: string } } };
-  return axiosError.response?.data?.message || fallbackMessage;
-};
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 export const useYogaSession = (sessionId?: string) => {
   const [session, setSession] = useState<YogaSession | null>(null);

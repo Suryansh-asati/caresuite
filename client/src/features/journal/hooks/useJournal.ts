@@ -1,11 +1,7 @@
 import { useCallback, useState } from 'react';
 import { journalApi } from '../api/journalApi';
 import type { JournalEntry, JournalPayload } from '../types';
-
-const getErrorMessage = (error: unknown, fallbackMessage: string) => {
-  const axiosError = error as { response?: { data?: { message?: string } } };
-  return axiosError.response?.data?.message || fallbackMessage;
-};
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 export const useJournal = () => {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
