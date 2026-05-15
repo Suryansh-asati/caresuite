@@ -12,6 +12,7 @@ import journalRoutes from './modules/journal/journal.routes.ts';
 import workoutRoutes from './modules/workouts/workouts.routes.ts';
 import dashboardRoutes from './modules/dashboard/dashboard.routes.ts';
 import therapyRoutes from './modules/therapy/therapy.routes.ts';
+import yogaRoutes from './modules/yoga/yoga.routes.ts';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/journal', journalRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/therapy', therapyRoutes);
+app.use('/api/yoga', yogaRoutes);
 
 // Error Handling
 app.use(errorHandler);
