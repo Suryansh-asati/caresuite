@@ -3,22 +3,24 @@ import { therapyCategories, yogaCategories, educationCategories } from '../../co
 
 export const sampleLibraryItems: LibraryItem[] = [
   {
-    id: 'lib-audio-1',
-    title: 'Calm & Center',
-    description: 'A grounding audio session to restore balance.',
-    category: therapyCategories[0],
-    duration: 12,
+    id: 'therapy-deep-sleep-recovery',
+    title: 'Deep Sleep Recovery',
+    description:
+      'A gentle wind-down session with soft ambient textures and guided body release to support restful, uninterrupted sleep.',
+    category: therapyCategories[1],
+    duration: 22,
     difficulty: 'all-levels',
     type: 'therapy',
     libraryType: 'audio',
     createdAt: '2026-05-01',
   },
   {
-    id: 'lib-yoga-1',
-    title: 'Evening Unwind Flow',
-    description: 'Gentle sequence to release the day.',
+    id: 'yoga-evening-wind-down',
+    title: 'Evening Wind Down',
+    description:
+      'A soothing sequence designed to calm the nervous system and prepare your body for a restful night of sleep.',
     category: yogaCategories[2],
-    duration: 20,
+    duration: 15,
     difficulty: 'beginner',
     type: 'yoga',
     libraryType: 'yoga',
