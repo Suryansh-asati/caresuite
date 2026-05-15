@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { therapyApi } from '../api/therapyApi';
-import type { TherapySession } from '../types/therapy.types';
+import { yogaApi } from '../api/yogaApi';
+import type { YogaSession } from '../types/yoga.types';
 import { getErrorMessage } from '../utils/getErrorMessage';
 
-export const useTherapySession = (sessionId?: string) => {
-  const [session, setSession] = useState<TherapySession | null>(null);
+export const useYogaSession = (sessionId?: string) => {
+  const [session, setSession] = useState<YogaSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -12,7 +12,7 @@ export const useTherapySession = (sessionId?: string) => {
     if (!sessionId) {
       setSession(null);
       setLoading(false);
-      setError('Invalid therapy session id.');
+      setError('Invalid yoga session id.');
       return;
     }
 
@@ -20,10 +20,10 @@ export const useTherapySession = (sessionId?: string) => {
     setError(null);
 
     try {
-      const data = await therapyApi.getSessionById(sessionId);
+      const data = await yogaApi.getSessionById(sessionId);
       setSession(data);
     } catch (error: unknown) {
-      setError(getErrorMessage(error, 'Unable to load this therapy session.'));
+      setError(getErrorMessage(error, 'Unable to load this yoga session.'));
       setSession(null);
     } finally {
       setLoading(false);

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../lib/prisma';
 import type {
   DashboardOverviewResponse,
   DashboardSummaryCards,
@@ -7,8 +7,6 @@ import type {
   LatestWorkout,
   RecentActivity,
 } from './dashboard.types';
-
-const prisma = new PrismaClient();
 
 export class DashboardService {
   async getDashboardOverview(userId: string): Promise<DashboardOverviewResponse> {

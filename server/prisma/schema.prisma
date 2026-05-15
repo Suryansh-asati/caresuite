@@ -95,3 +95,23 @@ model TherapySession {
   @@index([category])
   @@index([createdAt])
 }
+
+model YogaSession {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  category    String   // e.g., "Relaxation", "Energizing", "Flexibility", "Strength"
+  level       String   // e.g., "Beginner", "Intermediate", "Advanced"
+  duration    Int      // in minutes
+  thumbnail   String?
+  videoUrl    String
+  poseCount   Int?     // number of poses in the session
+  intensity   String?  // "low", "medium", "high"
+  benefits    String?  @db.Text // comma-separated list of benefits
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([level])
+  @@index([createdAt])
+}

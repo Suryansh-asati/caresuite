@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../lib/prisma';
 import type { CreateWorkoutInput, UpdateWorkoutInput } from './workouts.schema';
-
-const prisma = new PrismaClient();
 
 const workoutInclude = {
   exercises: {
