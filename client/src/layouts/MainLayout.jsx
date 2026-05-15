@@ -13,12 +13,13 @@ const MainLayout = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
-    { path: '/content', label: 'Content Library' },
+    { path: '/library', label: 'Wellness Library' },
     { path: '/mood', label: 'Mood Tracker' },
     { path: '/journal', label: 'Journal' },
     { path: '/workouts', label: 'Workouts' },
-    { path: '/yoga', label: 'Yoga Therapy' },
     { path: '/therapy', label: 'Audio Therapy' },
+    { path: '/yoga', label: 'Yoga Therapy' },
+    { path: '/content', label: 'Content Library' },
   ];
 
   return (
