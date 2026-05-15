@@ -7,6 +7,7 @@ import JournalPage from '../features/journal/pages/JournalPage';
 import WorkoutsPage from '../features/workouts/pages/WorkoutsPage';
 import ContentLibrary from '../pages/ContentLibrary';
 import { TherapyDetailPage, TherapyHomePage } from '../features/therapy';
+import { YogaDetailPage, YogaHomePage } from '../features/yoga';
 import { useAuth } from '../context/AuthContext';
 
 // Protected Route Wrapper
@@ -43,8 +44,10 @@ const AppRoutes = () => {
           <Route path="therapy" element={<TherapyHomePage />} />
           <Route path="therapy/:id" element={<TherapyDetailPage />} />
           <Route path="audio-therapy" element={<Navigate to="/therapy" replace />} />
+          <Route path="yoga" element={<YogaHomePage />} />
+          <Route path="yoga/:id" element={<YogaDetailPage />} />
           <Route path="content" element={<ContentLibrary />} />
-          {/* We will add Yoga, Laugh Therapy, Education etc. here */}
+          {/* We will add Laugh Therapy, Education etc. here */}
         </Route>
       </Routes>
     </BrowserRouter>

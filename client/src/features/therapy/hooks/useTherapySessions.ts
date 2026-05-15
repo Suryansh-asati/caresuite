@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { therapyApi } from '../api/therapyApi';
 import type { TherapyCategory, TherapySession } from '../types/therapy.types';
-
-const getErrorMessage = (error: unknown, fallbackMessage: string) => {
-  const axiosError = error as { response?: { data?: { message?: string } } };
-  return axiosError.response?.data?.message || fallbackMessage;
-};
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 export const useTherapySessions = () => {
   const [sessions, setSessions] = useState<TherapySession[]>([]);

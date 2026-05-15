@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../lib/prisma';
 import type { CreateJournalInput, UpdateJournalInput } from './journal.schema';
-
-const prisma = new PrismaClient();
 
 const createHttpError = (statusCode: number, message: string) => {
   const error = new Error(message) as Error & { statusCode: number };

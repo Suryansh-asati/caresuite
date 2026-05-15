@@ -1,11 +1,7 @@
 import { useCallback, useState } from 'react';
 import { workoutsApi } from '../api/workoutsApi';
 import type { WorkoutSession, WorkoutSessionPayload } from '../types';
-
-const getErrorMessage = (error: unknown, fallbackMessage: string) => {
-  const axiosError = error as { response?: { data?: { message?: string } } };
-  return axiosError.response?.data?.message || fallbackMessage;
-};
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 export const useWorkouts = () => {
   const [workouts, setWorkouts] = useState<WorkoutSession[]>([]);
