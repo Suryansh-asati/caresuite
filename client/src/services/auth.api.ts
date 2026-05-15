@@ -4,6 +4,10 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  avatarUrl?: string | null;
+  bio?: string | null;
+  preferredTheme?: string | null;
+  createdAt?: string;
 }
 
 export interface AuthResponse {

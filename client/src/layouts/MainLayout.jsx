@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import Button from '../shared/ui/Button';
 
 const MainLayout = () => {
-  const { logout } = useAuth();
+  const { logout, currentUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -13,6 +13,8 @@ const MainLayout = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
+    { path: '/profile', label: 'Profile' },
+    { path: '/settings', label: 'Settings' },
     { path: '/library', label: 'Wellness Library' },
     { path: '/mood', label: 'Mood Tracker' },
     { path: '/journal', label: 'Journal' },
@@ -23,28 +25,43 @@ const MainLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">CareSuite</h1>
-          <Button onClick={handleLogout} variant="secondary">
-            Logout
-          </Button>
+    <div className="min-h-screen flex flex-col bg-[linear-gradient(180deg,#f6fbf8_0%,#f3f7f4_56%,#eef3ef_100%)] text-slate-900">
+      <header className="border-b border-white/70 bg-white/80 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">CareSuite</h1>
+            <p className="mt-1 text-sm text-slate-500">A calmer place for your wellness routine</p>
+          </div>
+          <div className="flex items-center gap-3">
+            {currentUser && (
+              <div className="hidden text-right sm:block">
+                <p className="text-sm font-medium text-slate-900">{currentUser.name}</p>
+                <p className="text-xs text-slate-500">{currentUser.email}</p>
+              </div>
+            )}
+            <Button
+              onClick={handleLogout}
+              variant="secondary"
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-slate-700 shadow-sm transition hover:border-emerald-200 hover:text-emerald-900"
+            >
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 
-      <nav className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
+      <nav className="border-b border-emerald-100 bg-white/90 backdrop-blur">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap gap-2 py-3">
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `py-4 px-1 border-b-2 font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                  `rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 ${
                     isActive
-                      ? 'border-emerald-400 text-emerald-800'
-                      : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+                      ? 'bg-emerald-50 text-emerald-900 shadow-sm'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                   }`
                 }
               >
@@ -59,7 +76,7 @@ const MainLayout = () => {
         <Outlet />
       </main>
 
-      <footer className="bg-white px-4 py-6 border-t text-center text-sm text-gray-500 mt-8">
+      <footer className="mt-8 border-t border-white/70 bg-white/80 px-4 py-6 text-center text-sm text-slate-500 backdrop-blur">
         &copy; {new Date().getFullYear()} CareSuite
       </footer>
     </div>

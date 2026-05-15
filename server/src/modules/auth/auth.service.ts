@@ -76,7 +76,15 @@ export class AuthService {
   async getMe(userId: string) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, email: true, name: true }, // Filter sensitive data
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        avatarUrl: true,
+        bio: true,
+        preferredTheme: true,
+        createdAt: true,
+      },
     });
 
     if (!user) {
