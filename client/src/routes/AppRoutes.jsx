@@ -6,6 +6,7 @@ import MoodTrackerPage from '../features/mood/pages/MoodTrackerPage';
 import JournalPage from '../features/journal/pages/JournalPage';
 import WorkoutsPage from '../features/workouts/pages/WorkoutsPage';
 import ContentLibrary from '../pages/ContentLibrary';
+import { LibraryHomePage } from '../features/library';
 import { TherapyDetailPage, TherapyHomePage } from '../features/therapy';
 import { YogaDetailPage, YogaHomePage } from '../features/yoga';
 import { useAuth } from '../context/AuthContext';
@@ -46,6 +47,11 @@ const AppRoutes = () => {
           <Route path="audio-therapy" element={<Navigate to="/therapy" replace />} />
           <Route path="yoga" element={<YogaHomePage />} />
           <Route path="yoga/:id" element={<YogaDetailPage />} />
+          <Route path="library" element={<LibraryHomePage />} />
+          <Route path="libraray" element={<Navigate to="/library" replace />} />
+          <Route path="library/audio" element={<Navigate to="/therapy" replace />} />
+          <Route path="library/yoga" element={<Navigate to="/yoga" replace />} />
+          <Route path="library/articles" element={<ContentLibrary />} />
           <Route path="content" element={<ContentLibrary />} />
           {/* We will add Laugh Therapy, Education etc. here */}
         </Route>
