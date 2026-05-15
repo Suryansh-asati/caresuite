@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../lib/prisma';
 import { CreateMoodInput } from './moods.schema';
-
-const prisma = new PrismaClient();
 
 export class MoodsService {
   async createMood(userId: string, data: CreateMoodInput) {

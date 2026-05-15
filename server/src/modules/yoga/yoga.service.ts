@@ -1,20 +1,28 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { prisma } from '../../lib/prisma';
 import type { YogaSessionDto, YogaSessionFilters } from './yoga.types';
 
-const prisma = new PrismaClient();
+type YogaSessionDelegate = {
+  findMany: (args?: unknown) => Promise<unknown[]>;
+  findUnique: (args: unknown) => Promise<unknown | null>;
+};
+
+const yogaSessionClient = (prisma as unknown as { yogaSession: YogaSessionDelegate }).yogaSession;
 
 export class YogaService {
   async getYogaSessions(filters: YogaSessionFilters = {}): Promise<YogaSessionDto[]> {
-    return prisma.yogaSession.findMany({
-      where: this.buildWhere(filters),
+    const where = this.buildWhere(filters);
+    const sessions = await yogaSessionClient.findMany({
+      where,
       orderBy: { createdAt: 'desc' },
     });
+
+    return sessions as YogaSessionDto[];
   }
 
   async getYogaSessionById(id: string): Promise<YogaSessionDto> {
-    const yogaSession = await prisma.yogaSession.findUnique({
+    const yogaSession = (await yogaSessionClient.findUnique({
       where: { id },
-    });
+    })) as YogaSessionDto | null;
 
     if (!yogaSession) {
       throw { statusCode: 404, message: 'Yoga session not found' };
@@ -24,27 +32,27 @@ export class YogaService {
   }
 
   async getYogaCategories(): Promise<string[]> {
-    const categories = await prisma.yogaSession.findMany({
+    const categories = (await yogaSessionClient.findMany({
       distinct: ['category'],
       select: { category: true },
       orderBy: { category: 'asc' },
-    });
+    })) as Array<{ category: string }>;
 
     return categories.map((item) => item.category);
   }
 
   async getYogaLevels(): Promise<string[]> {
-    const levels = await prisma.yogaSession.findMany({
+    const levels = (await yogaSessionClient.findMany({
       distinct: ['level'],
       select: { level: true },
       orderBy: { level: 'asc' },
-    });
+    })) as Array<{ level: string }>;
 
     return levels.map((item) => item.level);
   }
 
-  private buildWhere(filters: YogaSessionFilters): Prisma.YogaSessionWhereInput {
-    const where: Prisma.YogaSessionWhereInput = {};
+  private buildWhere(filters: YogaSessionFilters) {
+    const where: Record<string, unknown> = {};
 
     if (filters.category) {
       where.category = {
