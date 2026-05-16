@@ -10,10 +10,7 @@ export class JournalController {
       }
 
       const validatedData = createJournalSchema.parse(req).body;
-      const newEntry = await journalService.createEntry(
-        req.user.id,
-        validatedData
-      );
+      const newEntry = await journalService.createEntry(req.user.id, validatedData);
 
       res.status(201).json({
         success: true,

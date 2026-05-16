@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "node src/index.js",
+    "start": "tsx src/index.js",
     "dev": "tsx watch src/index.js",
     "build": "prisma generate",
     "lint": "eslint src",
