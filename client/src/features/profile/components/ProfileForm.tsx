@@ -51,9 +51,9 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
 
     await onSubmit({
       name: normalizedName,
-      avatarUrl: avatarUrl.trim() ? avatarUrl.trim() : null,
-      bio: bio.trim() ? bio.trim() : null,
-      preferredTheme: preferredTheme.trim() ? preferredTheme.trim() : null,
+      avatarUrl: avatarUrl.trim() || null,
+      bio: bio.trim() || null,
+      preferredTheme: preferredTheme.trim() || null,
     });
   };
 

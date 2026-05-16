@@ -11,10 +11,8 @@ const MainLayout = () => {
     navigate('/login');
   };
 
-  const navItems = [
+  const leftNavItems = [
     { path: '/', label: 'Home' },
-    { path: '/profile', label: 'Profile' },
-    { path: '/settings', label: 'Settings' },
     { path: '/library', label: 'Wellness Library' },
     { path: '/mood', label: 'Mood Tracker' },
     { path: '/journal', label: 'Journal' },
@@ -23,6 +21,18 @@ const MainLayout = () => {
     { path: '/yoga', label: 'Yoga Therapy' },
     { path: '/content', label: 'Content Library' },
   ];
+
+  const accountNavItems = [
+    { path: '/profile', label: 'Profile' },
+    { path: '/settings', label: 'Settings' },
+  ];
+
+  const navLinkClassName = ({ isActive }) =>
+    `rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 ${
+      isActive
+        ? 'bg-emerald-50 text-emerald-900 shadow-sm'
+        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+    }`;
 
   return (
     <div className="min-h-screen flex flex-col bg-[linear-gradient(180deg,#f6fbf8_0%,#f3f7f4_56%,#eef3ef_100%)] text-slate-900">
@@ -52,22 +62,19 @@ const MainLayout = () => {
 
       <nav className="border-b border-emerald-100 bg-white/90 backdrop-blur">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-2 py-3">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 ${
-                    isActive
-                      ? 'bg-emerald-50 text-emerald-900 shadow-sm'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                  }`
-                }
-              >
+          <div className="flex flex-wrap items-center gap-2 py-3">
+            {leftNavItems.map((item) => (
+              <NavLink key={item.path} to={item.path} className={navLinkClassName}>
                 {item.label}
               </NavLink>
             ))}
+            <div className="ml-auto flex flex-wrap gap-2">
+              {accountNavItems.map((item) => (
+                <NavLink key={item.path} to={item.path} className={navLinkClassName}>
+                  {item.label}
+                </NavLink>
+              ))}
+            </div>
           </div>
         </div>
       </nav>

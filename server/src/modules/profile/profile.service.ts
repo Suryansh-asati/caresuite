@@ -3,6 +3,12 @@ import type { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
 import type { ProfileRecord, UpdatePasswordInput, UpdateProfileInput } from './profile.types';
 
+const createHttpError = (statusCode: number, message: string) => {
+  const error = new Error(message) as Error & { statusCode: number };
+  error.statusCode = statusCode;
+  return error;
+};
+
 const profileSelect = {
   id: true,
   name: true,
@@ -22,13 +28,22 @@ export class ProfileService {
     });
 
     if (!profile) {
-      throw { statusCode: 404, message: 'Profile not found' };
+      throw createHttpError(404, 'Profile not found');
     }
 
     return profile;
   }
 
   async updateProfile(userId: string, input: UpdateProfileInput): Promise<ProfileRecord> {
+    const existingProfile = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+
+    if (!existingProfile) {
+      throw createHttpError(404, 'Profile not found');
+    }
+
     const updateData: Prisma.UserUpdateInput = {
       name: input.name.trim(),
     };
@@ -61,13 +76,13 @@ export class ProfileService {
     });
 
     if (!user) {
-      throw { statusCode: 404, message: 'Profile not found' };
+      throw createHttpError(404, 'Profile not found');
     }
 
     const isCurrentPasswordValid = await bcrypt.compare(input.currentPassword, user.passwordHash);
 
     if (!isCurrentPasswordValid) {
-      throw { statusCode: 401, message: 'Current password is incorrect' };
+      throw createHttpError(401, 'Current password is incorrect');
     }
 
     const passwordHash = await bcrypt.hash(input.newPassword, 10);

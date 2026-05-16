@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from 'express';
-import { ZodError } from 'zod';
 import { profileService } from './profile.service';
 import { profilePasswordSchema, profileUpdateSchema } from './profile.validation';
 
@@ -35,10 +34,6 @@ export class ProfileController {
         data: { profile },
       });
     } catch (error: unknown) {
-      if (error instanceof ZodError) {
-        return res.status(400).json({ success: false, errors: error.issues });
-      }
-
       next(error);
     }
   }
@@ -57,10 +52,6 @@ export class ProfileController {
         data: { message: 'Password updated successfully' },
       });
     } catch (error: unknown) {
-      if (error instanceof ZodError) {
-        return res.status(400).json({ success: false, errors: error.issues });
-      }
-
       next(error);
     }
   }

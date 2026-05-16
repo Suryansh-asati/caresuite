@@ -13,6 +13,12 @@ const toneClasses = {
   accent: 'bg-emerald-50 text-emerald-900',
 };
 
+const toneLabels = {
+  default: 'Preference',
+  muted: 'Optional',
+  accent: 'Highlighted',
+};
+
 export const PreferenceCard: React.FC<PreferenceCardProps> = ({
   title,
   description,
@@ -27,7 +33,7 @@ export const PreferenceCard: React.FC<PreferenceCardProps> = ({
       <span
         className={`mt-4 inline-flex rounded-full px-3 py-1 text-xs font-medium ${toneClasses[tone]}`}
       >
-        Placeholder
+        {toneLabels[tone]}
       </span>
     </article>
   );
