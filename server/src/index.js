@@ -13,6 +13,7 @@ import workoutRoutes from './modules/workouts/workouts.routes.ts';
 import dashboardRoutes from './modules/dashboard/dashboard.routes.ts';
 import therapyRoutes from './modules/therapy/therapy.routes.ts';
 import yogaRoutes from './modules/yoga/yoga.routes.ts';
+import profileRoutes from './modules/profile/profile.routes.ts';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/workouts', workoutRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/therapy', therapyRoutes);
 app.use('/api/yoga', yogaRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Error Handling
 app.use(errorHandler);

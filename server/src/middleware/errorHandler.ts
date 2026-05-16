@@ -1,10 +1,19 @@
 import { Request, Response } from 'express';
+import { ZodError } from 'zod';
 
 export const errorHandler = (
   err: Error & { statusCode?: number },
   _req: Request,
   res: Response
 ): void => {
+  if (err instanceof ZodError) {
+    res.status(400).json({
+      success: false,
+      errors: err.issues,
+    });
+    return;
+  }
+
   // eslint-disable-next-line no-console
   console.error(err);
 

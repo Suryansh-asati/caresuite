@@ -1,0 +1,6 @@
+ALTER TABLE "User"
+  ADD COLUMN IF NOT EXISTS "avatarUrl" TEXT,
+  ADD COLUMN IF NOT EXISTS "bio" TEXT,
+  ADD COLUMN IF NOT EXISTS "preferredTheme" TEXT;
+
+CREATE UNIQUE INDEX IF NOT EXISTS "User_email_key" ON "User"("email");
