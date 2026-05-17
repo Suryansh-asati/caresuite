@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { getToken } from '../utils/auth';
+import { API_URL } from '../../config/api';
 
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: API_URL,
 });
 
 axiosClient.interceptors.request.use((config) => {

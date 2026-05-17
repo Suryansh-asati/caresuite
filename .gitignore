@@ -5,3 +5,5 @@
 .env
 .env.local
 .env.*.local
+/server/.env.example
+/client/.env.example
