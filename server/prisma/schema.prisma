@@ -10,7 +10,7 @@ datasource db {
 /// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
 model User {
   id             String           @id @default(uuid())
-  email          String
+  email          String           @unique
   passwordHash   String
   name           String
   createdAt      DateTime         @default(now())
