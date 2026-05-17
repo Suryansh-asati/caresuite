@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 
+import { prisma } from './lib/prisma.ts';
 import { errorHandler } from './middleware/errorHandler.js';
 import baseRoutes from './routes/index.js';
 import authRoutes from './modules/auth/auth.routes.ts';
@@ -40,6 +41,43 @@ app.use('/api/profile', profileRoutes);
 // Error Handling
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+let shuttingDown = false;
+
+const shutdown = (signal) => {
+  if (shuttingDown) {
+    return;
+  }
+
+  shuttingDown = true;
+  console.log(`Received ${signal}, shutting down gracefully`);
+
+  const forceExitTimer = setTimeout(async () => {
+    try {
+      await prisma.$disconnect();
+    } catch (error) {
+      console.error('Error disconnecting Prisma during forced shutdown:', error);
+    } finally {
+      process.exit(1);
+    }
+  }, 10000);
+
+  forceExitTimer.unref();
+
+  server.close(async () => {
+    try {
+      await prisma.$disconnect();
+    } catch (error) {
+      console.error('Error disconnecting Prisma during shutdown:', error);
+    } finally {
+      clearTimeout(forceExitTimer);
+      process.exit(0);
+    }
+  });
+};
+
+process.once('SIGTERM', () => shutdown('SIGTERM'));
+process.once('SIGINT', () => shutdown('SIGINT'));

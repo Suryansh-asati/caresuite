@@ -10,6 +10,8 @@
     "build": "prisma generate",
     "lint": "eslint src",
     "seed:therapy": "tsx prisma/seeds/therapySessions.seed.ts",
+    "seed:yoga": "tsx prisma/seeds/yogaSessions.seed.ts",
+    "seed": "npm run seed:therapy && npm run seed:yoga",
     "postinstall": "prisma generate"
   },
   "dependencies": {
