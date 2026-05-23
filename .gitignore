@@ -7,3 +7,4 @@
 .env.*.local
 /server/.env.example
 /client/.env.example
+/server/.env
